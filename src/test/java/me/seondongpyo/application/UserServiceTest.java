@@ -25,7 +25,7 @@ class UserServiceTest {
 	@DisplayName("새로운 사용자를 등록한다.")
 	@Test
 	void create() {
-		User user = new User("홍길동", "hong", "1234");
+		User user = createUser();
 
 		User created = userService.create(user);
 
@@ -40,7 +40,7 @@ class UserServiceTest {
 	@DisplayName("이미 등록된 계정 id가 있다면, DuplicateUsernameException이 발생한다.")
 	@Test
 	void duplicateUsername() {
-		User user = new User("홍길동", "hong", "1234");
+		User user = createUser();
 
 		userRepository.save(user);
 
@@ -51,8 +51,7 @@ class UserServiceTest {
 	@DisplayName("식별자로 사용자를 조회한다.")
 	@Test
 	void findById() {
-		User user = new User("홍길동", "hong", "1234");
-		userService.create(user);
+		User user = userService.create(createUser());
 
 		User foundUser = userService.findById(user.getId());
 
@@ -62,5 +61,9 @@ class UserServiceTest {
 			() -> assertThat(foundUser.getUsername()).isEqualTo(user.getUsername()),
 			() -> assertThat(foundUser.getPassword()).isEqualTo(user.getPassword())
 		);
+	}
+
+	private User createUser() {
+		return new User("홍길동", "hong", "1234");
 	}
 }
