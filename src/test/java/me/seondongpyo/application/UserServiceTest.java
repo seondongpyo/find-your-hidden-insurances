@@ -47,4 +47,20 @@ class UserServiceTest {
 		assertThatThrownBy(() -> userService.create(user))
 			.isInstanceOf(DuplicateUsernameException.class);
 	}
+
+	@DisplayName("식별자로 사용자를 조회한다.")
+	@Test
+	void findById() {
+		User user = new User("홍길동", "hong", "1234");
+		userService.create(user);
+
+		User foundUser = userService.findById(user.getId());
+
+		assertAll(
+			() -> assertThat(foundUser.getId()).isEqualTo(user.getId()),
+			() -> assertThat(foundUser.getName()).isEqualTo(user.getName()),
+			() -> assertThat(foundUser.getUsername()).isEqualTo(user.getUsername()),
+			() -> assertThat(foundUser.getPassword()).isEqualTo(user.getPassword())
+		);
+	}
 }
