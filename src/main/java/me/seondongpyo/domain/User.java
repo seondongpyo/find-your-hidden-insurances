@@ -28,4 +28,8 @@ public class User {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public boolean hasUsername(String username) {
+		return this.username.equals(username);
+	}
 }

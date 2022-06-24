@@ -25,7 +25,10 @@ public class InMemoryUserRepository implements UserRepository {
 	}
 
 	@Override
-	public User findByUsername(String username) {
-		return null;
+	public Optional<User> findByUsername(String username) {
+		return users.values()
+			.stream()
+			.filter(user -> user.hasUsername(username))
+			.findFirst();
 	}
 }

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import me.seondongpyo.domain.User;
 import me.seondongpyo.domain.UserRepository;
+import me.seondongpyo.exception.DuplicateUsernameException;
 
 class UserServiceTest {
 
@@ -34,5 +35,16 @@ class UserServiceTest {
 			() -> assertThat(created.getUsername()).isEqualTo(user.getUsername()),
 			() -> assertThat(created.getPassword()).isEqualTo(user.getPassword())
 		);
+	}
+
+	@DisplayName("이미 등록된 계정 id가 있다면, DuplicateUsernameException이 발생한다.")
+	@Test
+	void duplicateUsername() {
+		User user = new User("홍길동", "hong", "1234");
+
+		userRepository.save(user);
+
+		assertThatThrownBy(() -> userService.create(user))
+			.isInstanceOf(DuplicateUsernameException.class);
 	}
 }
