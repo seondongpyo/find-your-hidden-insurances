@@ -43,4 +43,13 @@ class SecurityControllerTest {
         mvc.perform(get("/manager"))
             .andExpect(status().isForbidden());
     }
+
+    @DisplayName("'/admin' 하위 경로는 ADMIN만 접근할 수 있다.")
+    @WithMockUser(roles = {"ADMIN"})
+    @Test
+    void admin() throws Exception {
+        mvc.perform(get("/admin"))
+            .andExpect(status().isOk())
+            .andExpect(content().string("admin"));
+    }
 }
