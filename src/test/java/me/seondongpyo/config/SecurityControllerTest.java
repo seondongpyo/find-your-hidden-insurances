@@ -35,4 +35,12 @@ class SecurityControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().string("manager or admin"));
     }
+
+    @DisplayName("'/manager' 하위 경로에 일반 사용자가 접근할 경우, 403 응답을 내려준다.")
+    @WithMockUser
+    @Test
+    void cannotAccessManagerPath() throws Exception {
+        mvc.perform(get("/manager"))
+            .andExpect(status().isForbidden());
+    }
 }
