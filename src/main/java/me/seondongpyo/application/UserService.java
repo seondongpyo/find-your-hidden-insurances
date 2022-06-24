@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import me.seondongpyo.domain.User;
 import me.seondongpyo.domain.UserRepository;
 import me.seondongpyo.exception.DuplicateUsernameException;
+import me.seondongpyo.exception.UserNotFoundException;
 
 @RequiredArgsConstructor
 public class UserService {
@@ -22,6 +23,6 @@ public class UserService {
 
 	public User findById(Long id) {
 		return userRepository.findById(id)
-			.orElseThrow(IllegalArgumentException::new);
+			.orElseThrow(() -> new UserNotFoundException(id));
 	}
 }

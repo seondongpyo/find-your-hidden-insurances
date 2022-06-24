@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import me.seondongpyo.domain.User;
 import me.seondongpyo.domain.UserRepository;
 import me.seondongpyo.exception.DuplicateUsernameException;
+import me.seondongpyo.exception.UserNotFoundException;
 
 class UserServiceTest {
 
@@ -61,6 +62,15 @@ class UserServiceTest {
 			() -> assertThat(foundUser.getUsername()).isEqualTo(user.getUsername()),
 			() -> assertThat(foundUser.getPassword()).isEqualTo(user.getPassword())
 		);
+	}
+
+	@DisplayName("식별자에 해당하는 사용자가 없는 경우, UserNotFoundException이 발생한다.")
+	@Test
+	void userNotFound() {
+		userService.create(createUser());
+
+		assertThatThrownBy(() -> userService.findById(999L))
+			.isInstanceOf(UserNotFoundException.class);
 	}
 
 	private User createUser() {
