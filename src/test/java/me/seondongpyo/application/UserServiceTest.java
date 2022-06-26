@@ -12,6 +12,7 @@ import me.seondongpyo.domain.User;
 import me.seondongpyo.domain.UserRepository;
 import me.seondongpyo.exception.DuplicateUsernameException;
 import me.seondongpyo.exception.UserNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 class UserServiceTest {
 
@@ -21,7 +22,7 @@ class UserServiceTest {
 	@BeforeEach
 	void setUp() {
 		userRepository = new InMemoryUserRepository();
-		userService = new UserService(userRepository);
+		userService = new UserService(userRepository, new BCryptPasswordEncoder());
 	}
 
 	@DisplayName("새로운 사용자를 등록한다.")
