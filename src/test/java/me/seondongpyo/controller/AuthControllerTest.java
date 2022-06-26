@@ -1,31 +1,51 @@
 package me.seondongpyo.controller;
 
+import me.seondongpyo.application.UserService;
 import me.seondongpyo.config.SecurityConfiguration;
+import me.seondongpyo.domain.Role;
+import me.seondongpyo.domain.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(AuthController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 @Import(SecurityConfiguration.class)
 class AuthControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
+    @Autowired
+    private UserService userService;
+
     @DisplayName("로그인 폼 페이지로 이동한다.")
     @Test
-    void login() throws Exception {
+    void loginForm() throws Exception {
         mvc.perform(get("/login"))
             .andExpect(status().isOk())
             .andExpect(view().name("user/login"));
+    }
+
+    @DisplayName("로그인 폼으로 로그인한다.")
+    @Test
+    void login() throws Exception {
+        userService.create(new User("홍길동", "hong", "1234", Role.USER));
+
+        mvc.perform(formLogin()
+                .user("hong")
+                .password("1234"))
+            .andExpect(authenticated().withRoles("USER"))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/"));
     }
 }
