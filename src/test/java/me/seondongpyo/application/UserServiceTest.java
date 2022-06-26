@@ -3,6 +3,7 @@ package me.seondongpyo.application;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import me.seondongpyo.domain.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -74,6 +75,6 @@ class UserServiceTest {
 	}
 
 	private User createUser() {
-		return new User("홍길동", "hong", "1234");
+		return new User("홍길동", "hong", "1234", Role.USER);
 	}
 }

@@ -22,10 +22,14 @@ public class User {
 
 	private String password;
 
-	public User(String name, String username, String password) {
+	@Enumerated(EnumType.STRING)
+	private Role role;
+
+	public User(String name, String username, String password, Role role) {
 		this.name = name;
 		this.username = username;
 		this.password = password;
+		this.role = role;
 	}
 
 	public void setId(Long id) {
