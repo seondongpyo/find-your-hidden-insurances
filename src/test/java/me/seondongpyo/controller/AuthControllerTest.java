@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -38,7 +39,7 @@ class AuthControllerTest {
 
     @DisplayName("로그인 폼으로 로그인한다.")
     @Test
-    void login() throws Exception {
+    void loginSuccess() throws Exception {
         userService.create(new User("홍길동", "hong", "1234", Role.USER));
 
         mvc.perform(formLogin()
@@ -47,5 +48,16 @@ class AuthControllerTest {
             .andExpect(authenticated().withRoles("USER"))
             .andExpect(status().is3xxRedirection())
             .andExpect(redirectedUrl("/"));
+    }
+
+    @DisplayName("사용자가 존재하지 않으면 로그인을 실패한다.")
+    @Test
+    void loginFailure() throws Exception {
+        mvc.perform(formLogin()
+                .user("kim")
+                .password("1234"))
+            .andExpect(unauthenticated())
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/login?error"));
     }
 }
