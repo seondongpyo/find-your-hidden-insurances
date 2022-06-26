@@ -18,6 +18,11 @@ public class SecurityConfiguration {
             .antMatchers("/admin/**").hasRole("ADMIN")
             .anyRequest().permitAll();
 
+        http.formLogin()
+            .loginPage("/login")
+            .loginProcessingUrl("/login")
+            .permitAll();
+
         return http.build();
     }
 }
