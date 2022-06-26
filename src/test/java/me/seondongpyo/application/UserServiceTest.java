@@ -36,7 +36,8 @@ class UserServiceTest {
 			() -> assertThat(created.getId()).isEqualTo(user.getId()),
 			() -> assertThat(created.getName()).isEqualTo(user.getName()),
 			() -> assertThat(created.getUsername()).isEqualTo(user.getUsername()),
-			() -> assertThat(created.getPassword()).isEqualTo(user.getPassword())
+			() -> assertThat(created.getPassword()).isEqualTo(user.getPassword()),
+			() -> assertThat(created.getRole().getValue()).isEqualTo("사용자")
 		);
 	}
 
@@ -62,7 +63,8 @@ class UserServiceTest {
 			() -> assertThat(foundUser.getId()).isEqualTo(user.getId()),
 			() -> assertThat(foundUser.getName()).isEqualTo(user.getName()),
 			() -> assertThat(foundUser.getUsername()).isEqualTo(user.getUsername()),
-			() -> assertThat(foundUser.getPassword()).isEqualTo(user.getPassword())
+			() -> assertThat(foundUser.getPassword()).isEqualTo(user.getPassword()),
+			() -> assertThat(foundUser.getRole().getValue()).isEqualTo("사용자")
 		);
 	}
 
