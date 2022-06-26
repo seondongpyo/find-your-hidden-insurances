@@ -3,6 +3,7 @@ package me.seondongpyo.application;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import me.seondongpyo.domain.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import me.seondongpyo.domain.User;
 import me.seondongpyo.domain.UserRepository;
 import me.seondongpyo.exception.DuplicateUsernameException;
 import me.seondongpyo.exception.UserNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 class UserServiceTest {
 
@@ -20,7 +22,7 @@ class UserServiceTest {
 	@BeforeEach
 	void setUp() {
 		userRepository = new InMemoryUserRepository();
-		userService = new UserService(userRepository);
+		userService = new UserService(userRepository, new BCryptPasswordEncoder());
 	}
 
 	@DisplayName("새로운 사용자를 등록한다.")
@@ -34,7 +36,8 @@ class UserServiceTest {
 			() -> assertThat(created.getId()).isEqualTo(user.getId()),
 			() -> assertThat(created.getName()).isEqualTo(user.getName()),
 			() -> assertThat(created.getUsername()).isEqualTo(user.getUsername()),
-			() -> assertThat(created.getPassword()).isEqualTo(user.getPassword())
+			() -> assertThat(created.getPassword()).isEqualTo(user.getPassword()),
+			() -> assertThat(created.getRole().getValue()).isEqualTo("사용자")
 		);
 	}
 
@@ -60,7 +63,8 @@ class UserServiceTest {
 			() -> assertThat(foundUser.getId()).isEqualTo(user.getId()),
 			() -> assertThat(foundUser.getName()).isEqualTo(user.getName()),
 			() -> assertThat(foundUser.getUsername()).isEqualTo(user.getUsername()),
-			() -> assertThat(foundUser.getPassword()).isEqualTo(user.getPassword())
+			() -> assertThat(foundUser.getPassword()).isEqualTo(user.getPassword()),
+			() -> assertThat(foundUser.getRole().getValue()).isEqualTo("사용자")
 		);
 	}
 
@@ -74,6 +78,6 @@ class UserServiceTest {
 	}
 
 	private User createUser() {
-		return new User("홍길동", "hong", "1234");
+		return new User("홍길동", "hong", "1234", Role.USER);
 	}
 }
