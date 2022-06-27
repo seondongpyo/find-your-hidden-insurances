@@ -16,6 +16,7 @@ public class AuthUser extends User {
     }
 
     public AuthUser(me.seondongpyo.domain.User user) {
-        this(user.getUsername(), user.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_USER")));
+        this(user.getUsername(), user.getPassword(),
+            List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())));
     }
 }
