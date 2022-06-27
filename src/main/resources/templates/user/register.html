@@ -18,6 +18,14 @@
         <label for="password">password: </label>
         <input type="password" id="password" th:field="*{password}">
     </div>
+    <div>
+        <label for="role">role: </label>
+        <select name="role" id="role" th:field="*{role}">
+            <option value="USER">사용자</option>
+            <option value="MANAGER">관리자</option>
+            <option value="ADMIN">어드민</option>
+        </select>
+    </div>
     <button type="submit">Register</button>
 </form>
 </body>
