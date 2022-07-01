@@ -69,6 +69,10 @@ jacocoTestCoverageVerification {
                 value = 'COVEREDRATIO'
                 minimum = 0.90
             }
+
+            excludes = [
+                    '**.FindYourHiddenInsurancesApplication*'
+            ]
         }
     }
 }
