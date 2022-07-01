@@ -3,16 +3,17 @@ package me.seondongpyo.application;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import me.seondongpyo.domain.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import me.seondongpyo.domain.Role;
 import me.seondongpyo.domain.User;
 import me.seondongpyo.domain.UserRepository;
+import me.seondongpyo.dto.UserUpdateForm;
 import me.seondongpyo.exception.DuplicateUsernameException;
 import me.seondongpyo.exception.UserNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 class UserServiceTest {
 
@@ -79,5 +80,22 @@ class UserServiceTest {
 
 	private User createUser() {
 		return new User("홍길동", "hong", "1234", Role.USER);
+	}
+
+	@DisplayName("사용자 정보를 수정한다.")
+	@Test
+	void update() {
+		User user = userRepository.save(createUser());
+
+		UserUpdateForm form = new UserUpdateForm();
+		form.setName("김길동");
+		form.setRole(Role.MANAGER);
+
+		userService.update(user.getId(), form);
+
+		User updatedUser = userService.findById(user.getId());
+
+		assertThat(updatedUser.getName()).isEqualTo("김길동");
+		assertThat(updatedUser.getRole()).isEqualTo(Role.MANAGER);
 	}
 }
