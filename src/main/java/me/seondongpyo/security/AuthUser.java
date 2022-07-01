@@ -29,7 +29,7 @@ public class AuthUser implements UserDetails {
     }
 
     public AuthUser(User user) {
-        this(user.getId(), user.getUsername(), user.getPassword(), user.getName(), user.getRole());
+        this(user.getId(), user.getName(), user.getUsername(), user.getPassword(), user.getRole());
     }
 
     public Long getId() {
