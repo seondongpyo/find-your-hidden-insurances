@@ -3,6 +3,7 @@ package me.seondongpyo.controller;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +31,7 @@ class UserControllerTest {
     @MockBean
     private UserService userService;
 
-    private static final AuthUser USER = new AuthUser(1L, "user", "1234", "유저", Role.USER);
+    private static final AuthUser USER = new AuthUser(1L, "유저", "user", "1234", Role.USER);
 
     @BeforeEach
     void setUp() {
@@ -73,5 +74,17 @@ class UserControllerTest {
                 .with(user(USER)))
             .andExpect(status().isOk())
             .andExpect(view().name("user/edit"));
+    }
+
+    @DisplayName("사용자 정보를 수정한다.")
+    @Test
+    void editUser() throws Exception {
+        mvc.perform(post("/user/edit")
+                .with(user(USER))
+                .param("name", "관리자")
+                .param("role", "MANAGER"))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(redirectedUrl("/user/detail"))
+            .andDo(print());
     }
 }

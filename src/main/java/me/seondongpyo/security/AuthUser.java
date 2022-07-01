@@ -15,16 +15,16 @@ import me.seondongpyo.domain.User;
 public class AuthUser implements UserDetails {
 
     private final Long id;
+    private final String name;
     private final String username;
     private final String password;
-    private final String name;
     private final Role role;
 
-    public AuthUser(Long id, String username, String password, String name, Role role) {
+    public AuthUser(Long id, String name, String username, String password, Role role) {
         this.id = id;
+        this.name = name;
         this.username = username;
         this.password = password;
-        this.name = name;
         this.role = role;
     }
 
