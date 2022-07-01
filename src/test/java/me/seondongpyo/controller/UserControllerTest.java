@@ -27,7 +27,7 @@ class UserControllerTest {
     @DisplayName("사용자 등록 폼으로 이동한다.")
     @Test
     void registerForm() throws Exception {
-        mvc.perform(get("/register"))
+        mvc.perform(get("/user/register"))
             .andExpect(status().isOk())
             .andExpect(view().name("user/register"));
     }
@@ -35,7 +35,7 @@ class UserControllerTest {
     @DisplayName("사용자 등록 폼으로 새로운 사용자를 등록한다.")
     @Test
     void register() throws Exception {
-        mvc.perform(post("/register")
+        mvc.perform(post("/user/register")
                 .param("name", "홍길동")
                 .param("username", "hong")
                 .param("password", "1234"))
