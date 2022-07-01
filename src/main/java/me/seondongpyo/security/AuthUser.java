@@ -8,32 +8,47 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import me.seondongpyo.domain.Role;
 import me.seondongpyo.domain.User;
 
-@RequiredArgsConstructor
 @Getter
 public class AuthUser implements UserDetails {
 
-    private final User user;
+    private final Long id;
+    private final String username;
+    private final String password;
+    private final String name;
+    private final Role role;
+
+    public AuthUser(Long id, String username, String password, String name, Role role) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.role = role;
+    }
+
+    public AuthUser(User user) {
+        this(user.getId(), user.getUsername(), user.getPassword(), user.getName(), user.getRole());
+    }
 
     public Long getId() {
-        return user.getId();
+        return id;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(user.getRole().name()));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return username;
     }
 
     @Override
