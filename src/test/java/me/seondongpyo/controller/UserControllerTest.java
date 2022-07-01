@@ -1,6 +1,7 @@
 package me.seondongpyo.controller;
 
 import static org.mockito.BDDMockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -17,6 +18,7 @@ import me.seondongpyo.application.UserService;
 import me.seondongpyo.config.SecurityConfiguration;
 import me.seondongpyo.domain.Role;
 import me.seondongpyo.domain.User;
+import me.seondongpyo.security.AuthUser;
 
 @WebMvcTest(UserController.class)
 @Import(SecurityConfiguration.class)
@@ -27,6 +29,8 @@ class UserControllerTest {
 
     @MockBean
     private UserService userService;
+
+    private static final AuthUser USER = new AuthUser(1L, "user", "1234", "유저", Role.USER);
 
     @BeforeEach
     void setUp() {
@@ -54,11 +58,20 @@ class UserControllerTest {
     }
 
     @DisplayName("사용자 정보 상세 페이지로 이동한다.")
-    @WithAuthUser(username = "유저", role = Role.USER)
     @Test
     void detail() throws Exception {
-        mvc.perform(get("/user/detail"))
+        mvc.perform(get("/user/detail")
+                .with(user(USER)))
             .andExpect(status().isOk())
             .andExpect(view().name("user/detail"));
+    }
+
+    @DisplayName("사용자 정보 수정 페이지로 이동한다.")
+    @Test
+    void edit() throws Exception {
+        mvc.perform(get("/user/edit")
+                .with(user(USER)))
+            .andExpect(status().isOk())
+            .andExpect(view().name("user/edit"));
     }
 }
