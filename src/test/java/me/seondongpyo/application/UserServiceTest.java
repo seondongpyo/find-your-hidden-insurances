@@ -78,10 +78,6 @@ class UserServiceTest {
 			.isInstanceOf(UserNotFoundException.class);
 	}
 
-	private User createUser() {
-		return new User("홍길동", "hong", "1234", Role.USER);
-	}
-
 	@DisplayName("사용자 정보를 수정한다.")
 	@Test
 	void update() {
@@ -97,5 +93,21 @@ class UserServiceTest {
 
 		assertThat(updatedUser.getName()).isEqualTo("김길동");
 		assertThat(updatedUser.getRole()).isEqualTo(Role.MANAGER);
+	}
+
+	@DisplayName("사용자 정보를 삭제한다.")
+	@Test
+	void delete() {
+		User user = userRepository.save(createUser());
+		Long id = user.getId();
+
+		userService.delete(id);
+
+		assertThatThrownBy(() -> userService.findById(id))
+			.isInstanceOf(UserNotFoundException.class);
+	}
+
+	private User createUser() {
+		return new User("홍길동", "hong", "1234", Role.USER);
 	}
 }

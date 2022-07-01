@@ -87,4 +87,14 @@ class UserControllerTest {
             .andExpect(redirectedUrl("/user/detail"))
             .andDo(print());
     }
+
+    @DisplayName("사용자 정보를 삭제한다.")
+    @Test
+    void deleteUser() throws Exception {
+		mvc.perform(post("/user/delete")
+				.with(user(USER)))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(redirectedUrl("/user/register"))
+			.andDo(print());
+    }
 }

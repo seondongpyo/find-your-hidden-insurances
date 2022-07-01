@@ -61,4 +61,11 @@ public class UserController {
 		userService.update(authUser.getId(), form);
 		return "redirect:/user/detail";
 	}
+
+	@PostMapping("/delete")
+	@PreAuthorize("isAuthenticated() and hasAuthority('USER')")
+	public String delete(@AuthenticationPrincipal AuthUser authUser) {
+		userService.delete(authUser.getId());
+		return "redirect:/user/register";
+	}
 }

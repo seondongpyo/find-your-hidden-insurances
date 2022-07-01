@@ -44,6 +44,11 @@ public class UserService {
 		user.update(updateParam);
 	}
 
+	public void delete(Long id) {
+		User user = findById(id);
+		userRepository.delete(user);
+	}
+
 	@PostConstruct
 	private void init() {
 		userRepository.save(new User("어드민", "admin", passwordEncoder.encode("1234"), Role.ADMIN));
