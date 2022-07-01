@@ -1,5 +1,6 @@
 package me.seondongpyo.dto;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import me.seondongpyo.domain.User;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 public class UserResponseDTO {
 
 	private Long id;
