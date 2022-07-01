@@ -5,7 +5,7 @@
     <title>Register</title>
 </head>
 <body>
-<form action="#" method="post" th:action="@{/register}" th:object="${form}">
+<form action="#" method="post" th:action="@{/user/register}" th:object="${form}">
     <div>
         <label for="name">name: </label>
         <input type="text" id="name" th:field="*{name}">

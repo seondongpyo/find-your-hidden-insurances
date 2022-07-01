@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
 import me.seondongpyo.application.UserService;
@@ -15,6 +16,7 @@ import me.seondongpyo.dto.UserResponseDTO;
 import me.seondongpyo.security.AuthUser;
 
 @RequiredArgsConstructor
+@RequestMapping("/user")
 @Controller
 public class UserController {
 
