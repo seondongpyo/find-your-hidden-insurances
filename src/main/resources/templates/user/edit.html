@@ -2,21 +2,17 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
+    <title>Edit</title>
 </head>
 <body>
-<form action="#" method="post" th:action="@{/user/register}" th:object="${form}">
+<form action="#" th:action th:object="${user}" method="post">
     <div>
         <label for="name">name: </label>
         <input type="text" id="name" th:field="*{name}">
     </div>
     <div>
         <label for="username">username: </label>
-        <input type="text" id="username" th:field="*{username}">
-    </div>
-    <div>
-        <label for="password">password: </label>
-        <input type="password" id="password" th:field="*{password}">
+        <input type="text" id="username" th:field="*{username}" readonly="readonly">
     </div>
     <div>
         <label for="role">role: </label>
@@ -26,7 +22,8 @@
             <option value="ADMIN">어드민</option>
         </select>
     </div>
-    <button type="submit">Register</button>
+    <button type="submit">Edit</button>
+    <a href="#" th:href="@{/user/detail}">Cancel</a>
 </form>
 </body>
 </html>

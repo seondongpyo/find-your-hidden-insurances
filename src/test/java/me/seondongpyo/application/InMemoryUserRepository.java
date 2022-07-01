@@ -31,4 +31,9 @@ public class InMemoryUserRepository implements UserRepository {
 			.filter(user -> user.hasUsername(username))
 			.findFirst();
 	}
+
+	@Override
+	public void delete(User user) {
+		users.remove(user.getId());
+	}
 }

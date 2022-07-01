@@ -1,22 +1,25 @@
 package me.seondongpyo.controller;
 
-import me.seondongpyo.application.UserService;
-import me.seondongpyo.config.SecurityConfiguration;
-import me.seondongpyo.domain.Role;
-import me.seondongpyo.domain.User;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.*;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
-import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
-import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import me.seondongpyo.application.UserService;
+import me.seondongpyo.config.SecurityConfiguration;
+import me.seondongpyo.domain.Role;
+import me.seondongpyo.domain.User;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -45,7 +48,7 @@ class AuthControllerTest {
         mvc.perform(formLogin()
                 .user("hong")
                 .password("1234"))
-            .andExpect(authenticated().withRoles("USER"))
+            .andExpect(authenticated().withAuthorities(List.of(new SimpleGrantedAuthority(Role.USER.name()))))
             .andExpect(status().is3xxRedirection())
             .andExpect(redirectedUrl("/"));
     }
