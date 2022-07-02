@@ -19,24 +19,16 @@ public class Client {
 
     private LocalDate birthDate;
 
+    private String agreement;
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Enumerated(EnumType.STRING)
     private Nationality nationality;
 
-    @Enumerated(EnumType.STRING)
-    private Telecom telecom;
-
-    private String phoneNumber;
-
-    private String email;
-
-    private String zipCode;
-
-    private String address;
-
-    private String agreement;
+    @Embedded
+    private Contact contact;
 
     @Embedded
     private Survey survey;
