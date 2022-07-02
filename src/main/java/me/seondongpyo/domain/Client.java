@@ -22,7 +22,8 @@ public class Client {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private String nationality;
+    @Enumerated(EnumType.STRING)
+    private Nationality nationality;
 
     private String telecom;
 
