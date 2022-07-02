@@ -2,11 +2,13 @@ package me.seondongpyo.application;
 
 import me.seondongpyo.domain.Client;
 import me.seondongpyo.domain.ClientRepository;
+import me.seondongpyo.exception.ClientNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ClientServiceTest {
 
@@ -39,6 +41,13 @@ class ClientServiceTest {
 
         assertThat(client.getId()).isEqualTo(expected.getId());
         assertThat(client.getName()).isEqualTo(expected.getName());
+    }
+
+    @DisplayName("식별자에 해당하는 고객이 존재하지 않다면 ClientNotFoundException 이 발생한다.")
+    @Test
+    void notFound() {
+        assertThatThrownBy(() -> clientService.findById(1L))
+            .isInstanceOf(ClientNotFoundException.class);
     }
 
     private Client client(Long id, String name) {
