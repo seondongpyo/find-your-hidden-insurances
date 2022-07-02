@@ -12,4 +12,9 @@ public class ClientService {
     public Client create(Client client) {
         return clientRepository.save(client);
     }
+
+    public Client findById(Long id) {
+        return clientRepository.findById(id)
+            .orElseThrow(IllegalArgumentException::new);
+    }
 }

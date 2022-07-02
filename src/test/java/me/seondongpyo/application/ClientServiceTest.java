@@ -11,22 +11,40 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ClientServiceTest {
 
     private ClientService clientService;
+    private ClientRepository clientRepository;
 
     @BeforeEach
     void setUp() {
-        ClientRepository clientRepository = new InMemoryClientRepository();
+        clientRepository = new InMemoryClientRepository();
         clientService = new ClientService(clientRepository);
     }
 
     @DisplayName("새로운 고객을 등록한다.")
     @Test
     void create() {
-        Client client = clientService.create(Client.builder()
-            .id(1L)
-            .name("홍길동")
-            .build());
+        Client expected = client(1L, "홍길동");
 
-        assertThat(client.getId()).isEqualTo(1L);
-        assertThat(client.getName()).isEqualTo("홍길동");
+        Client client = clientService.create(expected);
+
+        assertThat(client.getId()).isEqualTo(expected.getId());
+        assertThat(client.getName()).isEqualTo(expected.getName());
+    }
+
+    @DisplayName("식별자로 고객을 조회한다.")
+    @Test
+    void findById() {
+        Client expected = clientRepository.save(client(2L, "김길동"));
+
+        Client client = clientService.findById(2L);
+
+        assertThat(client.getId()).isEqualTo(expected.getId());
+        assertThat(client.getName()).isEqualTo(expected.getName());
+    }
+
+    private Client client(Long id, String name) {
+        return Client.builder()
+            .id(id)
+            .name(name)
+            .build();
     }
 }
