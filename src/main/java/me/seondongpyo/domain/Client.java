@@ -24,7 +24,7 @@ public class Client {
 
     private LocalDate birthDate;
 
-    private String agreement;
+    private boolean agreement;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
