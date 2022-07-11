@@ -21,7 +21,7 @@ import me.seondongpyo.dto.UserUpdateForm;
 @DynamicUpdate
 @Table(name = "users")
 @Entity
-public class User {
+public class User extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
